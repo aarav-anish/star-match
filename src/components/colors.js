@@ -5,4 +5,4 @@ const colors = {
   candidate: "deepskyblue",
 };
 
-const export colors;
+export default colors;

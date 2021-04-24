@@ -28,15 +28,16 @@ function Game() {
   const [stars, setStars] = useState(utils.random(1, 9));
   const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
   const [candidateNums, setCandidateNums] = useState([]);
+  // const [timeLeft, setTimeLeft] = useState(10);
 
   const areCandidatesWrong = utils.sum(candidateNums) > stars;
+  // const gameStatus =
 
   function numberStatus(number) {
     if (!availableNums.includes(number)) {
       return "used";
     }
     if (candidateNums.includes(number)) {
-      console.log(utils.sum(candidateNums), stars);
       return areCandidatesWrong ? "wrong" : "candidate";
     }
     return "available";
@@ -52,10 +53,8 @@ function Game() {
         : candidateNums.filter((cn) => cn !== number);
 
     if (utils.sum(newCandidateNums) !== stars) {
-      console.log("Candidates are wrong");
       setCandidateNums(newCandidateNums);
     } else {
-      console.log("Candidates are right");
       const newAvailableNums = availableNums.filter(
         (n) => !newCandidateNums.includes(n)
       );

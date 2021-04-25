@@ -27,8 +27,11 @@ function PlayNumber(props) {
 function PlayAgain(props) {
   return (
     <div className="game-done">
-      <p className="message">
-        {props.message === "won" ? "Yayy! Won" : "Uh ohh!"}
+      <p
+        className="message"
+        style={{ color: props.gameStatus === "won" ? "green" : "red" }}
+      >
+        {props.gameStatus === "won" ? "Yayy! Won" : "Uh ohh!"}
       </p>
       <button className="message" onClick={props.onClick}>
         Play Again
@@ -82,20 +85,13 @@ function Game(props) {
     }
   }
 
-  function restartGame() {
-    setStars(utils.random(1, 9));
-    setAvailableNums(utils.range(1, 9));
-    setCandidateNums([]);
-    props.restartTimer();
-  }
-
   return (
     <div className="body">
       <div className="left">
         {gameStatus === "active" ? (
           <DisplayStars count={stars} />
         ) : (
-          <PlayAgain message={gameStatus} onClick={restartGame} />
+          <PlayAgain gameStatus={gameStatus} onClick={props.startNewGame} />
         )}
       </div>
       <div className="right">

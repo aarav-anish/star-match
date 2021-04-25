@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="game">
       <Header />
-      <Game secondsLeft={timeLeft} restartGame={() => setTimeLeft(10)} />
+      <Game secondsLeft={timeLeft} restartTimer={() => setTimeLeft(10)} />
       <Timer secondsLeft={timeLeft} />
     </div>
   );

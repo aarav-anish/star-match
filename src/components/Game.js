@@ -24,14 +24,32 @@ function PlayNumber(props) {
   );
 }
 
-function Game() {
+function PlayAgain(props) {
+  return (
+    <div className="game-done">
+      <p className="message">
+        {props.message === "won" ? "Yayy! Won" : "Uh ohh!"}
+      </p>
+      <button className="message" onClick={props.onClick}>
+        Play Again
+      </button>
+    </div>
+  );
+}
+
+function Game(props) {
   const [stars, setStars] = useState(utils.random(1, 9));
   const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
   const [candidateNums, setCandidateNums] = useState([]);
-  // const [timeLeft, setTimeLeft] = useState(10);
 
   const areCandidatesWrong = utils.sum(candidateNums) > stars;
-  // const gameStatus =
+
+  const gameStatus =
+    availableNums.length === 0
+      ? "won"
+      : props.secondsLeft === 0
+      ? "lost"
+      : "active";
 
   function numberStatus(number) {
     if (!availableNums.includes(number)) {
@@ -44,7 +62,7 @@ function Game() {
   }
 
   function onNumberClick(number, currentStatus) {
-    if (currentStatus === "used") {
+    if (gameStatus !== "active" || currentStatus === "used") {
       return;
     }
     const newCandidateNums =
@@ -64,10 +82,21 @@ function Game() {
     }
   }
 
+  function restartGame() {
+    setStars(utils.random(1, 9));
+    setAvailableNums(utils.range(1, 9));
+    setCandidateNums([]);
+    props.restartTimer();
+  }
+
   return (
     <div className="body">
       <div className="left">
-        <DisplayStars count={stars} />
+        {gameStatus === "active" ? (
+          <DisplayStars count={stars} />
+        ) : (
+          <PlayAgain message={gameStatus} onClick={restartGame} />
+        )}
       </div>
       <div className="right">
         {utils.range(1, 9).map((number) => (
